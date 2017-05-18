@@ -16,19 +16,85 @@ public class CalendarService {
 	@Autowired
 	CalendarRepository calendarRepository;
 
-	public void select() {
-		List<Events> eventsList = calendarRepository.selectMonthlyEvents(java.sql.Date.valueOf("2017-5-1"), java.sql.Date.valueOf("2017-5-31"));
-		System.out.println(eventsList);
+	public List<List<Events>> selectMonthlyEvents(LocalDate wannaSelectEventsDate) {
+
+		// イベントを取得したい月の月初及び月末を取得.
+		List<LocalDate> firstAndLastDay = mkFirstAndLastDayOfMonth(wannaSelectEventsDate);
+		LocalDate firstDayOfMonth = firstAndLastDay.get(0);
+		LocalDate lastDayOfMonth = firstAndLastDay.get(1);
+
+		// 指定した月のイベントを取得する.
+		List<Events> eventsList = calendarRepository.selectMonthlyEvents(java.sql.Date.valueOf(firstDayOfMonth),
+				java.sql.Date.valueOf(lastDayOfMonth));
+
+		// 指定した月のカレンダー(日付オブジェクトのリスト)を取得する
+		List<List<LocalDate>> calendar = makeCalendar(firstAndLastDay);
+
+		// 日ごとにイベントが格納されていイベントオブジェクトをリターンするために、
+		// カレンダーとイベントリストを走査して、一つのEventオブジェクトのリストにする.
+		List<List<Events>> eventCalendar = mergeCalendarAndEvents(calendar, eventsList);
+		
+		for(List<Events> e : eventCalendar){
+			for(Events f : e){
+				System.out.println(f.getFormattedDate());
+				System.out.println(f.getEvent());
+			}
+		}
+		
+		return eventCalendar;
+
 	}
 
-	private List<List<LocalDate>> makeCalendar() {
+	private List<List<Events>> mergeCalendarAndEvents(List<List<LocalDate>> calendar, List<Events> eventsList) {
+
+		List<List<Events>> eventCalendar = new ArrayList<List<Events>>();
+		List<Events> eventWeek = null;
+
+		for (List<LocalDate> week : calendar) {
+			eventWeek = new ArrayList<Events>();
+			for (LocalDate date : week) {
+				Events dailyEvent = new Events();
+				dailyEvent.setFormattedDate(date);
+				for(Events event : eventsList){
+					if(event.getFormattedDate().equals(date)){
+						dailyEvent.setEvent(event.getEvent());
+					}
+				}
+				eventWeek.add(dailyEvent);
+			}
+			eventCalendar.add(eventWeek);
+		}
+		return eventCalendar;
+	}
+
+	/**
+	 * 月初及び月末をLocalDateオブジェクトのリストで返す.
+	 * 
+	 * @param 該当する月初及び月末を取得したい任意の日付オブジェクト.
+	 * @return 月初[0]及び月末[1]オブジェクトを格納したリスト(ArrayList).
+	 */
+	private List<LocalDate> mkFirstAndLastDayOfMonth(LocalDate createdLocalDate) {
+
+		// 月初オブジェクトを作成.
+		LocalDate firstDayOfMonth = LocalDate.of(createdLocalDate.getYear(), createdLocalDate.getMonthValue(), 1);
+		// その月の長さを元に月末オブジェクトを作成.
+		LocalDate lastDayOfMonth = LocalDate.of(firstDayOfMonth.getYear(), firstDayOfMonth.getMonthValue(),
+				firstDayOfMonth.lengthOfMonth());
+
+		List<LocalDate> firstAndLastDay = new ArrayList<LocalDate>();
+		firstAndLastDay.add(firstDayOfMonth);
+		firstAndLastDay.add(lastDayOfMonth);
+
+		return firstAndLastDay;
+	}
+
+	private List<List<LocalDate>> makeCalendar(List<LocalDate> firstAndLastDay) {
 
 		List<List<LocalDate>> calendar = new ArrayList<List<LocalDate>>();
 		List<LocalDate> week = null;
 
-		LocalDate firstDayOfMonth = LocalDate.of(2017, 6, 1);
-		LocalDate lastDayOfMonth = LocalDate.of(firstDayOfMonth.getYear(), firstDayOfMonth.getMonthValue(),
-				firstDayOfMonth.lengthOfMonth());
+		LocalDate firstDayOfMonth = firstAndLastDay.get(0);
+		LocalDate lastDayOfMonth = firstAndLastDay.get(1);
 
 		int firstDayOfCalendar = firstDayOfMonth.getDayOfWeek().getValue();
 

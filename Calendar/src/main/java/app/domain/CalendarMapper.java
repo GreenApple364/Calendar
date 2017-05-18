@@ -12,6 +12,6 @@ import app.model.Events;
 @Mapper
 public interface CalendarMapper {
 	
-	@Select("SELECT events_id,date,event FROM events WHERE date BETWEEN #{from} AND #{to} ORDER BY date ASC")
+	@Select("SELECT events_id,events_date,event FROM events WHERE events_date BETWEEN #{from} AND #{to} ORDER BY events_date ASC")
 	List<Events> selectMonthlyEvents(@Param(value="from")Date from, @Param(value="to")Date to);
 }
