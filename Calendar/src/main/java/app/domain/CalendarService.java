@@ -34,13 +34,6 @@ public class CalendarService {
 		// カレンダーとイベントリストを走査して、一つのEventオブジェクトのリストにする.
 		List<List<Events>> eventCalendar = mergeCalendarAndEvents(calendar, eventsList);
 		
-		for(List<Events> e : eventCalendar){
-			for(Events f : e){
-				System.out.println(f.getFormattedDate());
-				System.out.println(f.getEvent());
-			}
-		}
-		
 		return eventCalendar;
 
 	}
@@ -100,28 +93,31 @@ public class CalendarService {
 
 		// 週を表すリストを月曜日から始めたいので、月初が月曜日でない場合,
 		// その週の月曜日を初日とする.
-		if (firstDayOfCalendar != 1) {
+		if (firstDayOfCalendar != CalendarDays.MONDAY.dayNum) {
 			firstDayOfMonth = firstDayOfMonth.minusDays(firstDayOfCalendar - 1);
 		}
 
 		for (int i = 0; i <= 100; ++i) {
 			LocalDate d = firstDayOfMonth.plusDays(i);
 			int wd = d.getDayOfWeek().getValue();
-			if (wd == 1) {
+			if (wd == CalendarDays.MONDAY.dayNum) {
 				week = new ArrayList<LocalDate>();
 			}
 			week.add(d);
-			if (wd == 7) {
+			if (CalendarDays.SUNDAY.isEnd(wd)) {
 				calendar.add(week);
 				week = null;
 			}
 			if (d.equals(lastDayOfMonth)) {
+				System.out.println(d);
 				break;
 			}
 		}
 
 		int wd = lastDayOfMonth.getDayOfWeek().getValue();
-		if (wd != 7) {
+		//その月が日曜日で終了していない場合、
+		//来月の日付をリストに格納して数合わせする.
+		if (!(CalendarDays.SUNDAY.isEnd(wd))) {
 			for (int i = 1; i <= 7 - wd; ++i) {
 				LocalDate d = lastDayOfMonth.plusDays(i);
 				week.add(d);
@@ -130,5 +126,29 @@ public class CalendarService {
 		}
 
 		return calendar;
+	}
+	
+	public enum CalendarDays{
+		MONDAY(1),
+		SUNDAY(7);
+		
+		public boolean isEnd(int n){
+			if(n == SUNDAY.dayNum){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
+		private final int dayNum;
+		
+		CalendarDays(int n){
+			this.dayNum = n;
+		}
+		
+		public int dayNum(){
+			return dayNum;
+		}
+		
 	}
 }

@@ -28,7 +28,7 @@ public class CalendarController {
 	@RequestMapping(value=Consts.CONTEXT_PATH)
 	public String home(Model model){
 		LocalDate now = LocalDate.now();
-		model.addAttribute(calendarService.selectMonthlyEvents(now));
+		model.addAttribute("calendar",calendarService.selectMonthlyEvents(now));
 		return "calendar";
 	}
 	
