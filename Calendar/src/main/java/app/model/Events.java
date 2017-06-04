@@ -4,14 +4,23 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class Events implements Serializable{
 	
+	public void setDate(Integer date) {
+		this.date = date;
+	}
 	private Integer events_id;
 	private Date events_date;
 	private String event;
 	private LocalDate formattedDate;
+	@SuppressWarnings("unused")
+	private Integer month;
+	@SuppressWarnings("unused")
+	private Integer date;
+	private List<Events> events;
 
 	public Integer getEvents_id() {
 		return events_id;
@@ -42,10 +51,19 @@ public class Events implements Serializable{
 		this.formattedDate = formattedDate;
 	}
 
-	public int getMonth(){
+	public Integer getMonth(){
 		return formattedDate.getMonthValue();
 	}
-	public int getDate(){
+	
+	public Integer getDate(){
 		return formattedDate.getDayOfMonth();
 	}
+	public List<Events> getEvents() {
+		return events;
+	}
+	public void setEvents(List<Events> events) {
+		this.events = events;
+	}
+	
+	
 }

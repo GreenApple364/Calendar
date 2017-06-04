@@ -1,6 +1,8 @@
 package app;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import app.domain.CalendarService;
 import app.model.Consts;
+import app.model.Events;
 
 @Controller
 public class CalendarController {
@@ -28,7 +31,26 @@ public class CalendarController {
 	@RequestMapping(value=Consts.CONTEXT_PATH)
 	public String home(Model model){
 		LocalDate now = LocalDate.now();
-		model.addAttribute("calendar",calendarService.selectMonthlyEvents(now));
+		model.addAttribute(Consts.CALENDAR_KEY,calendarService.selectMonthlyEvents(now));
+		model.addAttribute("month",YearMonth.of(now.getYear(), now.getMonthValue()));
+		return Consts.TO_TOP_PAGE_FORWARD;
+	}
+	
+	@RequestMapping(value=Consts.PLUS_MONTH_PATH)
+	public String plus(NewEventForm newEventForm, Model model){
+		YearMonth plusOne = newEventForm.getViewingYearMonth().plusMonths(1);
+		LocalDate selectValueDate = LocalDate.of(plusOne.getYear(), plusOne.getMonthValue(),1);
+		model.addAttribute(Consts.MONTH_KEY, plusOne);
+		model.addAttribute(Consts.CALENDAR_KEY,calendarService.selectMonthlyEvents(selectValueDate));
+		return Consts.TO_TOP_PAGE_FORWARD;
+	}
+	
+	@RequestMapping(value=Consts.MINUS_MONTH_PATH)
+	public String minus(NewEventForm newEventForm, Model model){
+		YearMonth minusOne = newEventForm.getViewingYearMonth().minusMonths(1);
+		LocalDate selectValueDate = LocalDate.of(minusOne.getYear(), minusOne.getMonthValue(),1);
+		model.addAttribute(Consts.MONTH_KEY, minusOne);
+		model.addAttribute(Consts.CALENDAR_KEY,calendarService.selectMonthlyEvents(selectValueDate));
 		return "calendar";
 	}
 	

@@ -3,8 +3,38 @@
 <head>
 <meta charset="UTF-8"></meta>
 <title>Calendar</title>
+<style type="text/css">
+.currentYearMonth>p{
+    font-size: 20px
+}
+.monthButtons>form {
+	float: left;
+}
+</style>
 </head>
 <body>
-
+	<div class="currentYearMonth">
+		<p th:text="${month}"></p>
+	</div>
+	<div class="monthButtons">
+		<form action="/minus" method="post" id="newEventForm">
+			<input type="hidden" name="viewingYearMonth" value=""
+				th:value="${month}"></input> <input type="submit" value="前月"></input>
+		</form>
+		<form action="/plus" method="post" id="newEventForm">
+			<input type="hidden" name="viewingYearMonth" value=""
+				th:value="${month}"></input> <input type="submit" value="次月"></input>
+		</form>
+	</div>
+	<br></br>
+	<table border="1">
+		<tr th:each="week:${calendar}">
+			<td th:each="day:${week}">
+				<p th:text="${day.date}"></p>
+				<p th:each="event:${day.events}" th:text="${event.event}"></p> <input
+				class="date" type="hidden" value="" th:value="${day.formattedDate}"></input>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

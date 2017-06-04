@@ -1,6 +1,7 @@
 package app;
 
 import java.io.Serializable;
+import java.time.YearMonth;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @SuppressWarnings("serial")
 public class NewEventForm implements Serializable {
 
+	private YearMonth viewingYearMonth;
 	private Date eventDate;
 	@NotNull
 	private String event;
@@ -23,6 +25,12 @@ public class NewEventForm implements Serializable {
 	}
 	public void setEvent(String event) {
 		this.event = event;
+	}
+	public YearMonth getViewingYearMonth() {
+		return viewingYearMonth;
+	}
+	public void setViewingYearMonth(YearMonth viewingYearMonth) {
+		this.viewingYearMonth = viewingYearMonth;
 	}
 	
 	

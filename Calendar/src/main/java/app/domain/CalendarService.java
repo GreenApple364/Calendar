@@ -2,7 +2,6 @@ package app.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,14 @@ public class CalendarService {
 		// 日ごとにイベントが格納されていイベントオブジェクトをリターンするために、
 		// カレンダーとイベントリストを走査して、一つのEventオブジェクトのリストにする.
 		List<List<Events>> eventCalendar = mergeCalendarAndEvents(calendar, eventsList);
-		
+
+		for (List<Events> e : eventCalendar) {
+			for (Events f : e) {
+				System.out.println(f.getFormattedDate());
+				System.out.println(f.getEvents());
+			}
+		}
+
 		return eventCalendar;
 
 	}
@@ -46,13 +52,15 @@ public class CalendarService {
 		for (List<LocalDate> week : calendar) {
 			eventWeek = new ArrayList<Events>();
 			for (LocalDate date : week) {
+				List<Events> eventsOfDate = new ArrayList<Events>();
 				Events dailyEvent = new Events();
 				dailyEvent.setFormattedDate(date);
-				for(Events event : eventsList){
-					if(event.getFormattedDate().equals(date)){
-						dailyEvent.setEvent(event.getEvent());
+				for (Events event : eventsList) {
+					if (event.getFormattedDate().equals(date)) {
+						eventsOfDate.add(event);
 					}
 				}
+				dailyEvent.setEvents(eventsOfDate);
 				eventWeek.add(dailyEvent);
 			}
 			eventCalendar.add(eventWeek);
@@ -81,6 +89,13 @@ public class CalendarService {
 		return firstAndLastDay;
 	}
 
+	/**
+	 * 指定した月に関して日付オブジェクトの二次元リストを作成する。<br>
+	 * 一つのリストには7日ぶんのローカル日付オブジェクトが格納される。<br>
+	 * ある週について7日に満たない場合には前後の月の日付オブジェクトを取得して数合わせをする<br>
+	 * @param 作成したい月の初日を末日のローカル日付オブジェクト(java.time.LocalDate)
+	 * @return その月を表すローカル日付オブジェクトの二次元リスト.
+	 */
 	private List<List<LocalDate>> makeCalendar(List<LocalDate> firstAndLastDay) {
 
 		List<List<LocalDate>> calendar = new ArrayList<List<LocalDate>>();
@@ -115,8 +130,8 @@ public class CalendarService {
 		}
 
 		int wd = lastDayOfMonth.getDayOfWeek().getValue();
-		//その月が日曜日で終了していない場合、
-		//来月の日付をリストに格納して数合わせする.
+		// その月が日曜日で終了していない場合、
+		// 来月の日付をリストに格納して数合わせする.
 		if (!(CalendarDays.SUNDAY.isEnd(wd))) {
 			for (int i = 1; i <= 7 - wd; ++i) {
 				LocalDate d = lastDayOfMonth.plusDays(i);
@@ -127,28 +142,27 @@ public class CalendarService {
 
 		return calendar;
 	}
-	
-	public enum CalendarDays{
-		MONDAY(1),
-		SUNDAY(7);
-		
-		public boolean isEnd(int n){
-			if(n == SUNDAY.dayNum){
+
+	public enum CalendarDays {
+		MONDAY(1), SUNDAY(7);
+
+		public boolean isEnd(int n) {
+			if (n == SUNDAY.dayNum) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		}
-		
+
 		private final int dayNum;
-		
-		CalendarDays(int n){
+
+		CalendarDays(int n) {
 			this.dayNum = n;
 		}
-		
-		public int dayNum(){
+
+		public int dayNum() {
 			return dayNum;
 		}
-		
+
 	}
 }
