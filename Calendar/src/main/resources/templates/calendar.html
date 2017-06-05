@@ -11,6 +11,8 @@
 	float: left;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/calendar.js" th:src="@{/js/calendar.js}"></script>
 </head>
 <body>
 	<div class="currentYearMonth">
@@ -26,6 +28,16 @@
 				th:value="${month}"></input> <input type="submit" value="次月"></input>
 		</form>
 	</div>
+	<br></br>
+	<div class="newEventZone">
+		<form action="/addEvent" method="post" id="newEventFrom">
+			<input type="date" name="date"/>
+			<input type="text" name="event"/>
+			<input type="submit" value="新規に予定を追加する"/>
+		</form>
+		<button id="plusNewEventForm">+</button>
+	</div>
+	<br></br>
 	<br></br>
 	<table border="1">
 		<tr th:each="week:${calendar}">
