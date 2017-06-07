@@ -3,7 +3,7 @@ $(function() {
 	$('#plusNewEventForm').click(
 			function() {
 				$('.newEventZone').find('tbody').append(
-						"<tr><td><input type='date' name='newEvents[" + counter + "].date'></td>"
+						"<tr><td><input type='date' name='newEvents[" + counter + "].eventDate'></td>"
 								+ "<td><input type='text' name='newEvents[" + counter + "].event'></td>"
 								+ "</tr>");
 				counter += 1

@@ -6,14 +6,25 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import app.model.Events;
+import app.model.NewEvent;
 
 @Service
+@Transactional
 public class CalendarService {
 
 	@Autowired
 	CalendarRepository calendarRepository;
+	
+	//1レコードに対して一回INSERT分を発行するようになってしまっているが、
+	//一回の操作で想定される発生レコード数が少ないのでひとまずこのような実装にしておく.
+	public void insertNewEvents(ArrayList<NewEvent> events){
+		for(NewEvent e : events){
+			calendarRepository.insertNewEvents(e);
+		}
+	}
 
 	public List<List<Events>> selectMonthlyEvents(LocalDate wannaSelectEventsDate) {
 
@@ -32,13 +43,6 @@ public class CalendarService {
 		// 日ごとにイベントが格納されていイベントオブジェクトをリターンするために、
 		// カレンダーとイベントリストを走査して、一つのEventオブジェクトのリストにする.
 		List<List<Events>> eventCalendar = mergeCalendarAndEvents(calendar, eventsList);
-
-		for (List<Events> e : eventCalendar) {
-			for (Events f : e) {
-				System.out.println(f.getFormattedDate());
-				System.out.println(f.getEvents());
-			}
-		}
 
 		return eventCalendar;
 
@@ -124,7 +128,6 @@ public class CalendarService {
 				week = null;
 			}
 			if (d.equals(lastDayOfMonth)) {
-				System.out.println(d);
 				break;
 			}
 		}

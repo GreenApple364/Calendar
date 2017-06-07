@@ -2,7 +2,6 @@ package app;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import app.domain.CalendarService;
 import app.model.Consts;
-import app.model.Events;
 
 @Controller
 public class CalendarController {
@@ -60,8 +58,13 @@ public class CalendarController {
 		if(result.hasErrors()){
 			//入力チェックエラー時の処理
 		}else{
-			
+			calendarService.insertNewEvents(newEventForm.getNewEvents());
 		}
+		
+		YearMonth ym = newEventForm.getViewingYearMonth();
+		LocalDate currentMonth = LocalDate.of(ym.getYear(), ym.getMonthValue(),1);
+		model.addAttribute(Consts.MONTH_KEY, ym);
+		model.addAttribute(Consts.CALENDAR_KEY, calendarService.selectMonthlyEvents(currentMonth));
 		
 		return "calendar";
 	}

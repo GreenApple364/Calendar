@@ -40,11 +40,12 @@ td {
 			<div class="newEventZone">
 				<table>
 					<tr>
-						<td><input type="date" name="newEvents[0]date" /></td>
-						<td><input type="text" name="newEvents[0]event" /></td>
+						<td><input type="date" name="newEvents[0].eventDate" /></td>
+						<td><input type="text" name="newEvents[0].event" /></td>
 					</tr>
 				</table>
 			</div>
+			<input type="hidden" name="viewingYearMonth" value="" th:value="${month}" />
 			<input type="submit" value="新規に予定を追加する" />
 		</form>
 		<button id="plusNewEventForm">+</button>
