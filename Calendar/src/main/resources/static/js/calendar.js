@@ -1,9 +1,13 @@
 $(function() {
+	var counter = 1
 	$('#plusNewEventForm').click(
 			function() {
 				$('.newEventZone').find('tbody').append(
-						"<tr><td><input type='date' name='date'></td>"
-								+ "<td><input type='text' name='event'></td>"
-								+ "</tr>")
+						"<tr><td><input type='date' name='newEvents[" + counter + "].date'></td>"
+								+ "<td><input type='text' name='newEvents[" + counter + "].event'></td>"
+								+ "</tr>");
+				counter += 1
 			});
 });
+
+//TODO:作成されたフォームごとにイベントリスナを付与して削除ボタンを押下した際に任意の行を削除できるようにする.
