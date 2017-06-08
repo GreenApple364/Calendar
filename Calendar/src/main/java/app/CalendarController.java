@@ -49,7 +49,7 @@ public class CalendarController {
 		LocalDate selectValueDate = LocalDate.of(minusOne.getYear(), minusOne.getMonthValue(),1);
 		model.addAttribute(Consts.MONTH_KEY, minusOne);
 		model.addAttribute(Consts.CALENDAR_KEY,calendarService.selectMonthlyEvents(selectValueDate));
-		return "calendar";
+		return Consts.TO_TOP_PAGE_FORWARD;
 	}
 	
 	@RequestMapping(value=Consts.ADD_EVENTS_PATH)
@@ -66,6 +66,13 @@ public class CalendarController {
 		model.addAttribute(Consts.MONTH_KEY, ym);
 		model.addAttribute(Consts.CALENDAR_KEY, calendarService.selectMonthlyEvents(currentMonth));
 		
-		return "calendar";
+		return Consts.TO_TOP_PAGE_FORWARD;
+	}
+	
+	@RequestMapping(value=Consts.REMOVE_EVENTS_PATH)
+	public String remove(RemoveEventForm removeEventForm){
+		
+		return Consts.TO_TOP_PAGE_FORWARD;
+		
 	}
 }

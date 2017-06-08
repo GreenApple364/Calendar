@@ -45,19 +45,23 @@ td {
 					</tr>
 				</table>
 			</div>
-			<input type="hidden" name="viewingYearMonth" value="" th:value="${month}" />
-			<input type="submit" value="新規に予定を追加する" />
+			<input type="hidden" name="viewingYearMonth" value=""
+				th:value="${month}" /> <input type="submit" value="新規に予定を追加する" />
 		</form>
 		<button id="plusNewEventForm">+</button>
 	</div>
 	<br></br>
 	<br></br>
-	<table border="1">
+	<table border="1" id="calendarZone">
 		<tr th:each="week:${calendar}">
 			<td th:each="day:${week}">
 				<p th:text="${day.date}"></p>
-				<p th:each="event:${day.events}" th:text="${event.event}"></p> <input
-				class="date" type="hidden" value="" th:value="${day.formattedDate}"></input>
+				<p th:each="event:${day.events}" th:text="${event.event}"></p>
+				<form action="/removeEvent" method="post" id="removeEventForm">
+					<input class="date" type="hidden" name="removeDate" value=""
+						th:value="${day.formattedDate}"></input> <input type="hidden"
+						name="viewingYearMonth" value="" th:value="${month}" ></input>
+				</form>
 			</td>
 		</tr>
 	</table>

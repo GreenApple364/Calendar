@@ -6,6 +6,7 @@ public class Consts {
 	public static final String CONTEXT_PATH = "/";
 	/** イベント追加処理のリクエストマッピング. */
 	public static final String ADD_EVENTS_PATH = "/addEvent";
+	public static final String REMOVE_EVENTS_PATH = "/removeEvent";
 	public static final String PLUS_MONTH_PATH = "/plus";
 	public static final String MINUS_MONTH_PATH = "/minus";
 	
