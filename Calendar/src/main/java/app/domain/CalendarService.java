@@ -17,11 +17,11 @@ public class CalendarService {
 
 	@Autowired
 	CalendarRepository calendarRepository;
-	
-	//1レコードに対して一回INSERT分を発行するようになってしまっているが、
-	//一回の操作で想定される発生レコード数が少ないのでひとまずこのような実装にしておく.
-	public void insertNewEvents(ArrayList<NewEvent> events){
-		for(NewEvent e : events){
+
+	// 1レコードに対して一回INSERT分を発行するようになってしまっているが、
+	// 一回の操作で想定される発生レコード数が少ないのでひとまずこのような実装にしておく.
+	public void insertNewEvents(ArrayList<NewEvent> events) {
+		for (NewEvent e : events) {
 			calendarRepository.insertNewEvents(e);
 		}
 	}
@@ -45,6 +45,12 @@ public class CalendarService {
 		List<List<Events>> eventCalendar = mergeCalendarAndEvents(calendar, eventsList);
 
 		return eventCalendar;
+
+	}
+
+	public void removeDailyEvents(String removeDate) {
+
+		calendarRepository.removeDailyEvents(java.sql.Date.valueOf(removeDate));
 
 	}
 
@@ -97,6 +103,7 @@ public class CalendarService {
 	 * 指定した月に関して日付オブジェクトの二次元リストを作成する。<br>
 	 * 一つのリストには7日ぶんのローカル日付オブジェクトが格納される。<br>
 	 * ある週について7日に満たない場合には前後の月の日付オブジェクトを取得して数合わせをする<br>
+	 * 
 	 * @param 作成したい月の初日を末日のローカル日付オブジェクト(java.time.LocalDate)
 	 * @return その月を表すローカル日付オブジェクトの二次元リスト.
 	 */
@@ -113,6 +120,7 @@ public class CalendarService {
 		// 週を表すリストを月曜日から始めたいので、月初が月曜日でない場合,
 		// その週の月曜日を初日とする.
 		if (firstDayOfCalendar != CalendarDays.MONDAY.dayNum) {
+			// if (firstDayOfCalendar != CalendarDays.SUNDAY.dayNum) {
 			firstDayOfMonth = firstDayOfMonth.minusDays(firstDayOfCalendar - 1);
 		}
 
@@ -120,10 +128,12 @@ public class CalendarService {
 			LocalDate d = firstDayOfMonth.plusDays(i);
 			int wd = d.getDayOfWeek().getValue();
 			if (wd == CalendarDays.MONDAY.dayNum) {
+				// if (wd == CalendarDays.SUNDAY.dayNum) {
 				week = new ArrayList<LocalDate>();
 			}
 			week.add(d);
 			if (CalendarDays.SUNDAY.isEnd(wd)) {
+				// if (CalendarDays.SATURDAY.isEnd(wd)) {
 				calendar.add(week);
 				week = null;
 			}
@@ -136,6 +146,8 @@ public class CalendarService {
 		// その月が日曜日で終了していない場合、
 		// 来月の日付をリストに格納して数合わせする.
 		if (!(CalendarDays.SUNDAY.isEnd(wd))) {
+			// if (!(CalendarDays.SATURDAY.isEnd(wd))) {
+			// for (int i = 1; i <= 6 - wd; ++i) {
 			for (int i = 1; i <= 7 - wd; ++i) {
 				LocalDate d = lastDayOfMonth.plusDays(i);
 				week.add(d);
@@ -147,10 +159,11 @@ public class CalendarService {
 	}
 
 	public enum CalendarDays {
-		MONDAY(1), SUNDAY(7);
+		MONDAY(1), SATURDAY(6), SUNDAY(7);
 
 		public boolean isEnd(int n) {
 			if (n == SUNDAY.dayNum) {
+				// if (n == SATURDAY.dayNum) {
 				return true;
 			} else {
 				return false;

@@ -51,6 +51,7 @@ td {
 		<button id="plusNewEventForm">+</button>
 	</div>
 	<br></br>
+	<p th:text="${errorMsg}"></p>
 	<br></br>
 	<table border="1" id="calendarZone">
 		<tr th:each="week:${calendar}">

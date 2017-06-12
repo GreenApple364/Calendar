@@ -15,6 +15,12 @@ public class Consts {
 	/** カレンダーを表示させる年月を表す年月オブジェクトをmodelに格納する際のキー */
 	public static final String MONTH_KEY = "month";
 	
+	public static final String ERROE_MSG_KEY = "errorMsg";
+	
 	/** WebページへForwardする. */
 	public static final String TO_TOP_PAGE_FORWARD = "calendar";
+	
+	public static final String NOT_NULL_ERROR = "未入力の項目があります";
+	
+	
 }

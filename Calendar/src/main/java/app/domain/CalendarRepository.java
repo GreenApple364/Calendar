@@ -23,4 +23,8 @@ public class CalendarRepository {
 	public void insertNewEvents(NewEvent events){
 		calendarMapper.insertNewEvents(events);
 	}
+	
+	public void removeDailyEvents(Date removeDate){
+		calendarMapper.removeDailyEvents(removeDate);
+	}
 }

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,4 +21,7 @@ public interface CalendarMapper {
 	
 	@Insert("INSERT INTO events VALUES(NEXTVAL('events_seq'),#{eventDate},#{event})")
 	void insertNewEvents(NewEvent event);
+	
+	@Delete("DELETE FROM events WHERE events_date = #{removeDate}")
+	void removeDailyEvents(Date removeDate);
 }

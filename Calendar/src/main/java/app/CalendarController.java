@@ -57,6 +57,7 @@ public class CalendarController {
 		
 		if(result.hasErrors()){
 			//入力チェックエラー時の処理
+			model.addAttribute(Consts.ERROE_MSG_KEY, Consts.NOT_NULL_ERROR);
 		}else{
 			calendarService.insertNewEvents(newEventForm.getNewEvents());
 		}
@@ -70,8 +71,15 @@ public class CalendarController {
 	}
 	
 	@RequestMapping(value=Consts.REMOVE_EVENTS_PATH)
-	public String remove(RemoveEventForm removeEventForm){
+	public String remove(RemoveEventForm removeEventForm,Model model){
 		
+		calendarService.removeDailyEvents(removeEventForm.getRemoveDate());
+		
+		YearMonth ym = removeEventForm.getViewingYearMonth();
+		LocalDate currentMonth = LocalDate.of(ym.getYear(), ym.getMonthValue(),1);
+		model.addAttribute(Consts.MONTH_KEY, ym);
+		model.addAttribute(Consts.CALENDAR_KEY, calendarService.selectMonthlyEvents(currentMonth));
+
 		return Consts.TO_TOP_PAGE_FORWARD;
 		
 	}
