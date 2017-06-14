@@ -12,9 +12,6 @@ td {
 	font-size: 20px
 }
 
-.monthButtons>form {
-	float: left;
-}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,31 +22,48 @@ td {
 		<p th:text="${month}"></p>
 	</div>
 	<div class="monthButtons">
-		<form action="/minus" method="post" id="newEventForm">
-			<input type="hidden" name="viewingYearMonth" value=""
-				th:value="${month}"></input> <input type="submit" value="前月"></input>
-		</form>
-		<form action="/plus" method="post" id="newEventForm">
-			<input type="hidden" name="viewingYearMonth" value=""
-				th:value="${month}"></input> <input type="submit" value="次月"></input>
-		</form>
+		<table>
+			<tr>
+				<td>
+					<form action="/minus" method="post" id="newEventForm">
+						<input type="hidden" name="viewingYearMonth" value=""
+							th:value="${month}"></input> <input type="submit" value="前月"></input>
+					</form>
+				</td>
+				<td>
+					<form action="/plus" method="post" id="newEventForm">
+						<input type="hidden" name="viewingYearMonth" value=""
+							th:value="${month}"></input> <input type="submit" value="次月"></input>
+					</form>
+				</td>
+			</tr>
+		</table>
 	</div>
 	<br></br>
-	<div>
-		<form action="/addEvent" method="post" id="newEventFrom">
-			<div class="newEventZone">
-				<table>
-					<tr>
-						<td><input type="date" name="newEvents[0].eventDate" /></td>
-						<td><input type="text" name="newEvents[0].event" /></td>
-					</tr>
-				</table>
-			</div>
-			<input type="hidden" name="viewingYearMonth" value=""
-				th:value="${month}" /> <input type="submit" value="新規に予定を追加する" />
-		</form>
-		<button id="plusNewEventForm">+</button>
-	</div>
+	<table>
+		<tr>
+			<td>
+				<button id="plusNewEventForm">+</button>
+			</td>
+			<td>
+				<div>
+					<form action="/addEvent" method="post" id="newEventFrom">
+						<div class="newEventZone">
+							<table>
+								<tr>
+									<td><input type="date" name="newEvents[0].eventDate" /></td>
+									<td><input type="text" name="newEvents[0].event" /></td>
+									<td>×</td>
+								</tr>
+							</table>
+						</div>
+						<input type="hidden" name="viewingYearMonth" value=""
+							th:value="${month}" /> <input type="submit" value="新規に予定を追加する" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
 	<br></br>
 	<p th:text="${errorMsg}"></p>
 	<br></br>
@@ -61,7 +75,7 @@ td {
 				<form action="/removeEvent" method="post" id="removeEventForm">
 					<input class="date" type="hidden" name="removeDate" value=""
 						th:value="${day.formattedDate}"></input> <input type="hidden"
-						name="viewingYearMonth" value="" th:value="${month}" ></input>
+						name="viewingYearMonth" value="" th:value="${month}"></input>
 				</form>
 			</td>
 		</tr>
