@@ -12,15 +12,15 @@ $(function() {
 			});
 
 	$('#calendarZone td').hover(function() {
-		$(this).find("form").append("<button>削除</button>");
+		if ($(this).find("p").length) {
+			$(this).find("form").append("<button>削除</button>");
+		}
 	}, function() {
 		$(this).find("button:last").remove();
 	});
 
-	// TODO:作成されたフォームごとにイベントリスナを付与して削除ボタンを押下した際に任意の行を削除できるようにする.
-	$('.newEventZone tr>td:last').click(function() {
-		alert('a')
+	$('.newEventZone table').on('click', 'tr td:nth-child(3)', function() {
+		$(this).parent().remove();
 	});
 
 });
-

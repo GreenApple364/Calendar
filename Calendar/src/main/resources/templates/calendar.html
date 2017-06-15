@@ -11,7 +11,6 @@ td {
 .currentYearMonth>p {
 	font-size: 20px
 }
-
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -46,21 +45,18 @@ td {
 				<button id="plusNewEventForm">+</button>
 			</td>
 			<td>
-				<div>
-					<form action="/addEvent" method="post" id="newEventFrom">
-						<div class="newEventZone">
-							<table>
-								<tr>
-									<td><input type="date" name="newEvents[0].eventDate" /></td>
-									<td><input type="text" name="newEvents[0].event" /></td>
-									<td>×</td>
-								</tr>
-							</table>
-						</div>
-						<input type="hidden" name="viewingYearMonth" value=""
-							th:value="${month}" /> <input type="submit" value="新規に予定を追加する" />
-					</form>
-				</div>
+				<form action="/addEvent" method="post" id="newEventFrom">
+					<div class="newEventZone">
+						<table>
+							<tr>
+								<td><input type="date" name="newEvents[0].eventDate" /></td>
+								<td><input type="text" name="newEvents[0].event" /></td>
+							</tr>
+						</table>
+					</div>
+					<input type="hidden" name="viewingYearMonth" value=""
+						th:value="${month}" /> <input type="submit" value="新規に予定を追加する" />
+				</form>
 			</td>
 		</tr>
 	</table>
@@ -70,7 +66,7 @@ td {
 	<table border="1" id="calendarZone">
 		<tr th:each="week:${calendar}">
 			<td th:each="day:${week}">
-				<p th:text="${day.date}"></p>
+				<h4 th:text="${day.date}"></h4>
 				<p th:each="event:${day.events}" th:text="${event.event}"></p>
 				<form action="/removeEvent" method="post" id="removeEventForm">
 					<input class="date" type="hidden" name="removeDate" value=""
