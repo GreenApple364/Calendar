@@ -6,7 +6,7 @@ $(function() {
 						"<tr>" + "<td><input type='date' name='newEvents["
 								+ counter + "].eventDate'></td>"
 								+ "<td><input type='text' name='newEvents["
-								+ counter + "].event'></td>" + "<td>×</td>"
+								+ counter + "].event'></td>" + "<td style='font-size:20pt'>×</td>"
 								+ "</tr>");
 				counter += 1
 			});

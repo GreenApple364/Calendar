@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8"></meta>
 <title>Calendar</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
 <style type="text/css">
 td {
 	width: 60px;
@@ -17,6 +19,8 @@ td {
 <script src="/js/calendar.js" th:src="@{/js/calendar.js}"></script>
 </head>
 <body>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<div class="currentYearMonth">
 		<p th:text="${month}"></p>
 	</div>
@@ -26,13 +30,13 @@ td {
 				<td>
 					<form action="/minus" method="post" id="newEventForm">
 						<input type="hidden" name="viewingYearMonth" value=""
-							th:value="${month}"></input> <input type="submit" value="前月"></input>
+							th:value="${month}"></input> <input class="btn btn-default" type="submit" value="前月"></input>
 					</form>
 				</td>
 				<td>
 					<form action="/plus" method="post" id="newEventForm">
 						<input type="hidden" name="viewingYearMonth" value=""
-							th:value="${month}"></input> <input type="submit" value="次月"></input>
+							th:value="${month}"></input> <input class="btn btn-default" type="submit" value="次月"></input>
 					</form>
 				</td>
 			</tr>
@@ -42,7 +46,7 @@ td {
 	<table>
 		<tr>
 			<td>
-				<button id="plusNewEventForm">+</button>
+				<button id="plusNewEventForm" class="btn btn-primary btn-lg">+</button>
 			</td>
 			<td>
 				<form action="/addEvent" method="post" id="newEventFrom">
@@ -55,7 +59,7 @@ td {
 						</table>
 					</div>
 					<input type="hidden" name="viewingYearMonth" value=""
-						th:value="${month}" /> <input type="submit" value="新規に予定を追加する" />
+						th:value="${month}" /> <input class="btn btn-primary" type="submit" value="新規に予定を追加する" />
 				</form>
 			</td>
 		</tr>
@@ -63,7 +67,7 @@ td {
 	<br></br>
 	<p th:text="${errorMsg}"></p>
 	<br></br>
-	<table border="1" id="calendarZone">
+	<table border="1" id="calendarZone" class="table-responsive">
 		<tr th:each="week:${calendar}">
 			<td th:each="day:${week}">
 				<h4 th:text="${day.date}"></h4>
