@@ -4,13 +4,11 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
 
 public class NewEvent {
 	
-	@NotNull
 	private Date eventDate;
-	@NotBlank
+	@NotNull
 	private String event;
 	
 	public Date getEventDate() {
