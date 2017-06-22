@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+
 import app.model.NewEvent;
 
 @SuppressWarnings("serial")
 public class NewEventForm implements Serializable {
 
+	@Valid
 	private ArrayList<NewEvent> newEvents;
 	private YearMonth viewingYearMonth;
 	

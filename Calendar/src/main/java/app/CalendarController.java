@@ -2,6 +2,9 @@ package app;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import app.domain.CalendarService;
 import app.model.Consts;
+import app.model.NewEvent;
 
 @Controller
 public class CalendarController {
@@ -66,6 +70,10 @@ public class CalendarController {
 		
 		if(result.hasErrors()){
 			//入力チェックエラー時の処理
+			ArrayList<NewEvent> e = newEventForm.getNewEvents();
+			for(NewEvent ee : e){				
+				System.out.println(ee);
+			}
 			model.addAttribute(Consts.ERROE_MSG_KEY, Consts.NOT_NULL_ERROR);
 		}else{
 			calendarService.insertNewEvents(newEventForm.getNewEvents());
