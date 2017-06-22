@@ -20,7 +20,7 @@ public class Consts {
 	/** WebページへForwardする. */
 	public static final String TO_TOP_PAGE_FORWARD = "calendar";
 	
-	public static final String NOT_NULL_ERROR = "未入力の項目があります";
+	public static final String INPUT_ERROR = "入力に誤りがあります";
 	
 	
 }
