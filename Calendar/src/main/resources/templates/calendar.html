@@ -72,7 +72,8 @@ td {
 	<p th:text="${errorMsg}"></p>
 	<br></br>
 	<table border="1" id="calendarZone" class="table-responsive">
-		<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+	<!-- eventsから月を取り出し、その月の日ではないときは字の色を薄くするようにしたい -->
+		<tr><th style="color:red">Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th style="color:blue">Sat</th></tr>
 		<tr th:each="week:${calendar}">
 			<td th:each="day:${week}">
 				<h4 th:text="${day.date}"></h4>
