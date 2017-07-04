@@ -19,8 +19,8 @@ td {
 	background-color: #d4d4d4;
 }
 
-#calendarZone tr:nth-child(n+2) {
-	background-color: #f2f2f2;
+#calendarZone tr:nth-child(n+2) td:nth-child(1),td:nth-child(7) {
+	background-color: #f6f6f6;
 }
 </style>
 <script
@@ -80,7 +80,6 @@ td {
 	<p th:text="${errorMsg}"></p>
 	<br></br>
 	<table border="1" id="calendarZone" class="table-responsive">
-		<!-- eventsから月を取り出し、その月の日ではないときは字の色を薄くするようにしたい -->
 		<tr id="dayRow">
 			<th style="color: red">Sun</th>
 			<th>Mon</th>
@@ -92,7 +91,11 @@ td {
 		</tr>
 		<tr th:each="week:${calendar}">
 			<td th:each="day:${week}">
-				<h4 th:text="${day.date}"></h4>
+			
+			    <!-- その月の日付ではない場合文字の色を薄くする -->
+			    <!-- 薄くなると予定も表示されなくなってしまう -->
+				<h4 th:if="${day.month != month.monthValue}" th:text="${day.date}" style="color:gray"></h4>
+                <h4 th:if="${day.month == month.monthValue}" th:text="${day.date}"></h4>
 				<p th:each="event:${day.events}" th:text="${event.event}"></p>
 				<form action="/removeEvent" method="post" id="removeEventForm">
 					<input class="date" type="hidden" name="removeDate" value=""

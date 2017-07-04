@@ -11,6 +11,7 @@ $(function() {
 				counter += 1
 			});
 
+	//	全ての日付には削除用のフォームが仕込まれているが,予定が記入されている場合のみsubmit出来るようにする処理.
 	$('#calendarZone td').hover(function() {
 		if ($(this).find("p").length) {
 			$(this).find("form").append("<button>削除</button>");
